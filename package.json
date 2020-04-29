@@ -1,0 +1,13 @@
+{
+  "name": "rock-paper-scissors",
+  "version": "1.0.0",
+  "main": "rock-paper-scissors.ts",
+  "repository": "https://github.com/marcianszlovak/rxjs-rock-paper-scissors.git",
+  "author": "marci <marcianszlovak@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "browserify": "^16.5.1",
+    "rxjs": "^6.5.5",
+    "watchify": "^3.11.1"
+  }
+}
