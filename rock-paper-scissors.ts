@@ -1,40 +1,67 @@
-import { fromEvent, Subscription } from 'rxjs';
+import { fromEvent } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-const rockBtn: HTMLButtonElement = document.getElementById('rock');
-const paperBtn: HTMLButtonElement = document.getElementById('paper');
-const scissorsBtn: HTMLButtonElement = document.getElementById('scissors');
+const rockBtn: HTMLButtonElement = document.getElementById(
+  'rock'
+) as HTMLButtonElement;
+const paperBtn: HTMLButtonElement = document.getElementById(
+  'paper'
+) as HTMLButtonElement;
+const scissorsBtn: HTMLButtonElement = document.getElementById(
+  'scissors'
+) as HTMLButtonElement;
 const result: HTMLElement = document.getElementById('result');
 
 const computerChoice: string[] = ['rock', 'paper', 'scissors'];
 
+const outputResult = (myChoice: string, opponentChoice: string) => {
+  const winningCondition = getWinningCondition(myChoice, opponentChoice);
+  const losingCondition = getLosingCondition(myChoice, opponentChoice);
+
+  if (winningCondition) {
+    console.log(`${myChoice} beats ${opponentChoice}, You WIN!`);
+  }
+  if (losingCondition) {
+    console.log(`${opponentChoice} beats ${myChoice}, You Lose!`);
+  }
+  if (myChoice === opponentChoice) {
+    console.log(`It's a DRAW!`);
+  }
+};
+
+const getLosingCondition: (
+  myChoice: string,
+  opponentChoice: string
+) => boolean = (myChoice: string, opponentChoice: string) =>
+  (myChoice === 'paper' && opponentChoice === 'scissors') ||
+  (myChoice === 'scissors' && opponentChoice === 'rock') ||
+  (myChoice === 'rock' && opponentChoice === 'paper');
+
+const getWinningCondition: (
+  myChoice: string,
+  opponentChoice: string
+) => boolean = (myChoice: string, opponentChoice: string) =>
+  (myChoice === 'paper' && opponentChoice === 'rock') ||
+  (myChoice === 'scissors' && opponentChoice === 'paper') ||
+  (myChoice === 'rock' && opponentChoice === 'scissors');
+
 const randomize: (a: string[]) => string = (a) =>
   a[Math.floor(Math.random() * a.length)];
 
-const paper$: Subscription = fromEvent(paperBtn, 'click')
+fromEvent(paperBtn, 'click')
   .pipe(map(() => randomize(computerChoice)))
-  .subscribe((x) => {
-    if (x === 'rock') {
-      console.log('Paper beats rock, you win!');
-    } else if (x === 'scissors') {
-      console.log('Scissors beat paper, you lose!');
-    } else {
-      console.log('DRAW!');
-    }
-  });
+  .subscribe((randomComputerChoice: string) =>
+    outputResult('paper', randomComputerChoice)
+  );
 
-const scissors$: Subscription = fromEvent(scissorsBtn, 'click')
+fromEvent(scissorsBtn, 'click')
   .pipe(map(() => randomize(computerChoice)))
-  .subscribe(console.log);
-const rock$: Subscription = fromEvent(rockBtn, 'click')
+  .subscribe((randomComputerChoice: string) =>
+    outputResult('scissors', randomComputerChoice)
+  );
+
+fromEvent(rockBtn, 'click')
   .pipe(map(() => randomize(computerChoice)))
-  .subscribe(console.log);
-
-/* 
-rock beats scissors
-scissors beat paper
-paper beats rock 
-*/
-
-// of(buttons)
-// click 1. => map(() => randomize(computerChoice)), switchMap(() => click 2. randomize(computerChoice))
+  .subscribe((randomComputerChoice: string) =>
+    outputResult('rock', randomComputerChoice)
+  );
