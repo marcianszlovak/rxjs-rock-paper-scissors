@@ -18,32 +18,32 @@ const outputResult = (myChoice: string, opponentChoice: string) => {
   const winningCondition = getWinningCondition(myChoice, opponentChoice);
   const losingCondition = getLosingCondition(myChoice, opponentChoice);
 
-  if (winningCondition) {
-    console.log(`${myChoice} beats ${opponentChoice}, You WIN!`);
-  }
-  if (losingCondition) {
-    console.log(`${opponentChoice} beats ${myChoice}, You Lose!`);
-  }
-  if (myChoice === opponentChoice) {
-    console.log(`It's a DRAW!`);
-  }
+  winningCondition
+    ? console.log(`${myChoice} beats ${opponentChoice}, You WIN!`)
+    : null;
+
+  losingCondition
+    ? console.log(`${opponentChoice} beats ${myChoice}, You Lose!`)
+    : null;
+
+  myChoice === opponentChoice ? console.log(`It's a DRAW!`) : null;
 };
 
 const getLosingCondition: (
   myChoice: string,
   opponentChoice: string
-) => boolean = (myChoice: string, opponentChoice: string) =>
-  (myChoice === 'paper' && opponentChoice === 'scissors') ||
-  (myChoice === 'scissors' && opponentChoice === 'rock') ||
-  (myChoice === 'rock' && opponentChoice === 'paper');
+) => boolean = (a, b) =>
+  (a === 'paper' && b === 'scissors') ||
+  (a === 'scissors' && b === 'rock') ||
+  (a === 'rock' && b === 'paper');
 
 const getWinningCondition: (
   myChoice: string,
   opponentChoice: string
-) => boolean = (myChoice: string, opponentChoice: string) =>
-  (myChoice === 'paper' && opponentChoice === 'rock') ||
-  (myChoice === 'scissors' && opponentChoice === 'paper') ||
-  (myChoice === 'rock' && opponentChoice === 'scissors');
+) => boolean = (a, b) =>
+  (a === 'paper' && b === 'rock') ||
+  (a === 'scissors' && b === 'paper') ||
+  (a === 'rock' && b === 'scissors');
 
 const randomize: (a: string[]) => string = (a) =>
   a[Math.floor(Math.random() * a.length)];
